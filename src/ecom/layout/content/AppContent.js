@@ -25,11 +25,17 @@ const AppContent = () => {
                     path={route.path}
                     exact={route.exact}
                     name={route.name}
-                    render={(props) => (
-                      <CFade>
-                        <route.component {...props} />
-                      </CFade>
-                    )}
+                    render={(props) => {
+                      if (!localStorage.getItem("authUser")) {
+                        return <Redirect to="/login" from="{props.location}" />;
+                      } else {
+                        return (
+                          <CFade>
+                            <route.component {...props} />
+                          </CFade>
+                        );
+                      }
+                    }}
                   />
                 )
               );

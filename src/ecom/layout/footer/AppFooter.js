@@ -5,7 +5,7 @@ const AppFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <a href="javascript:;" rel="noopener noreferrer">
+        <a href="#" rel="noopener noreferrer">
           MGCommerce
         </a>
         <span className="ml-1">&copy; 2021.</span>

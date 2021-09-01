@@ -14,6 +14,7 @@ import {
   CRow,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
+import Spinner from "react-bootstrap/Spinner";
 
 const Login = () => {
   return (
@@ -52,7 +53,13 @@ const Login = () => {
                   </CInputGroup>
                   <CRow>
                     <CCol xs="6">
-                      <CButton color="primary" className="px-4">
+                      <CButton color="primary" className="px-3">
+                        <Spinner
+                          animation="border"
+                          variant="light"
+                          size="sm"
+                          className="mr-2"
+                        />
                         Login
                       </CButton>
                     </CCol>
