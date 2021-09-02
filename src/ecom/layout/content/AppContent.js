@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { CContainer, CFade } from "@coreui/react";
+import AuthService from "src/ecom/services/AuthService";
 
 // routes config
 import EcomRoutes from "../../EcomRoutes";
@@ -26,7 +27,7 @@ const AppContent = () => {
                     exact={route.exact}
                     name={route.name}
                     render={(props) => {
-                      if (!localStorage.getItem("authUser")) {
+                      if (!AuthService.isAuthenticated()) {
                         return <Redirect to="/login" from="{props.location}" />;
                       } else {
                         return (

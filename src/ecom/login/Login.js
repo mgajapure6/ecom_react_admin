@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import CIcon from "@coreui/icons-react";
 import Spinner from "react-bootstrap/Spinner";
 import { Alert, Button, Card, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import AuthService from "../services/AuthService";
 import axios from "axios";
 
 
@@ -15,7 +16,8 @@ const Login = () => {
   const [usernameOrEmail, setUsernameOrEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const loginUrl = "https://mgg-ecomm-api.herokuapp.com/api/auth/signin";
+  const loginUrl = AuthService.getLoginProcessingUrl();
+  const profileUrl = AuthService.getLoggedUserDetailUrl();
 
 
   const handleSubmit = (event) => {
@@ -24,15 +26,26 @@ const Login = () => {
     event.stopPropagation();
     const form = event.currentTarget;
     if (form.checkValidity()) {
-      // if form is valid
-      console.log("usernameOrEmail", usernameOrEmail);
-      console.log("password", password);
-
+      // if form is valid - send post request to get token
       axios.post(loginUrl, { usernameOrEmail: usernameOrEmail, password: password }).then(res => {
-        console.log("res", res);
-        localStorage.setItem("authUser", res.data.fullToken);
-        history.push("/dashboard");
-        setLoading(false);
+        // when token received - send get request to get user detail
+        axios.get(profileUrl, { headers: { 'Authorization': res.data.fullToken } }).then(u_res => {
+          let authUser = {
+            token: res.data.fullToken,
+            id: u_res.data.id,
+            username: u_res.data.username,
+            firstName: u_res.data.firstName,
+            lastName: u_res.data.lastName,
+          }
+          // save user detail
+          AuthService.setAuthUser(authUser);
+          history.push("/dashboard");
+        }).catch(err => {
+          console.log("err", err);
+          setLoading(false);
+          setAlert(true);
+        });
+
       }).catch(err => {
         console.log("err", err);
         setLoading(false);
@@ -84,7 +97,7 @@ const Login = () => {
                   </InputGroup>
                   <Row>
                     <Col xs="6">
-                      <Button variant="primary" className="px-3" type="submit">
+                      <Button variant="primary" className="px-3" type="submit" disabled={loading}>
                         {loading ? <Spinner
                           animation="border"
                           variant="light"
@@ -95,7 +108,7 @@ const Login = () => {
                       </Button>
                     </Col>
                     <Col xs="6" className="text-right align-self-center">
-                      <Link className="px-0 link" to="/fpassword">
+                      <Link className="px-0 link" to={loading ? "#" : "/fpassword"}>
                         Forgot password?
                       </Link>
                     </Col>

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  CBadge,
   CDropdown,
   CDropdownItem,
   CDropdownMenu,
@@ -10,12 +9,13 @@ import {
 import { freeSet } from '@coreui/icons';
 import CIcon from "@coreui/icons-react";
 import { useHistory } from "react-router-dom";
+import AuthService from "src/ecom/services/AuthService";
 
 const AppHeaderDropdown = () => {
   const navigation = useHistory();
+  let fullname = AuthService.getAuthUserFullName();
   const handleLogout = (event) => {
-    console.log("logout", event);
-    localStorage.removeItem("authUser");
+    AuthService.removeAuthUser();
     navigation.push("/login");
   }
   return (
@@ -27,10 +27,34 @@ const AppHeaderDropdown = () => {
             className="c-avatar-img"
             alt="admin@admin.com"
           />
+          <span className="c-avatar-status bg-success"></span>
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem header tag="div" color="light" className="text-center">
+        <CDropdownItem href="#">
+          <div className="logged-user">
+            <div className="pt-1 mr-3 float-left">
+              <div className="c-avatar">
+                <CImg
+                  src={"avatars/6.jpg"}
+                  className="c-avatar-img"
+                  alt="admin@bootstrapmaster.com"
+                />
+                <span className="c-avatar-status bg-success"></span>
+              </div>
+            </div>
+            <div className="font-weight-bold">
+              <span className="fa fa-exclamation text-danger"></span>{fullname}
+            </div>
+            <div>
+              <small className="text-muted mb-0 fw-lighter">Role : </small><small className="mb-0 fst-normal text-uppercase">Administrator</small>
+            </div>
+            <div>
+              <small className="text-muted mb-0 fw-lighter">Last Login : </small><small className="mb-0 fst-normal text-uppercase">02/09/2020 3.00 AM</small>
+            </div>
+          </div>
+        </CDropdownItem>
+        {/* <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Account</strong>
         </CDropdownItem>
         <CDropdownItem>
@@ -56,7 +80,8 @@ const AppHeaderDropdown = () => {
         </CDropdownItem>
         <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Settings</strong>
-        </CDropdownItem>
+        </CDropdownItem> */}
+        <CDropdownItem divider />
         <CDropdownItem>
           <CIcon name="cil-user" className="mfe-2" />
           Profile
@@ -65,13 +90,13 @@ const AppHeaderDropdown = () => {
           <CIcon name="cil-settings" className="mfe-2" />
           Settings
         </CDropdownItem>
-        <CDropdownItem>
+        {/* <CDropdownItem>
           <CIcon name="cil-credit-card" className="mfe-2" />
           Payments
           <CBadge color="secondary" className="mfs-auto">
             42
           </CBadge>
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownItem divider />
         <CDropdownItem>
           <CIcon name="cil-lock-locked" className="mfe-2" />

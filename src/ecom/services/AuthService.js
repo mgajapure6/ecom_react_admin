@@ -1,22 +1,49 @@
-export const AuthService = () => {
+class AuthService {
 
-    function setAuthUser(user) {
-        localStorage.setItem("authUser", user);
+    //constructor(){}
+
+    getLoginProcessingUrl() {
+        return "https://mgg-ecomm-api.herokuapp.com/api/auth/signin";
     }
 
-    function getAuthUser() {
-        return isAuthenticated ? localStorage.getItem("authUser") : null;
+    getLoggedUserDetailUrl() {
+        return "https://mgg-ecomm-api.herokuapp.com/api/users/me";
     }
 
-    function isAuthenticated() {
-        return localStorage.getItem("authUser") ? true : false;
+    setAuthUser(user) {
+        localStorage.setItem("authUser", JSON.stringify(user));
     }
 
-    function removeAuthUser() {
+    getAuthUser() {
+        return this.isAuthenticated() ? localStorage.getItem("authUser") : null;
+    }
+
+    removeAuthUser() {
         localStorage.removeItem("authUser");
     }
 
+    isAuthenticated() {
+        return localStorage.getItem("authUser") ? true : false;
+    }
+
+    getAuthUserFullName() {
+        return this.isAuthenticated() ? JSON.parse(this.getAuthUser()).firstName + " " + JSON.parse(this.getAuthUser()).lastName : "";
+    }
+
+    getAuthUserRole() {
+        return "";
+    }
+
+    getAuthUserID() {
+        return "";
+    }
+
+    getAuthUserLastLogin() {
+        return "";
+    }
 
 }
+
+export default new AuthService();
 
 

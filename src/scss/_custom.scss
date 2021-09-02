@@ -1,1 +1,18 @@
 // Here you can add other styles
+
+ul.c-sidebar-nav>li:nth-child(n+3) {
+    border-bottom: 1px solid #51617d;
+}
+
+ul.c-sidebar-nav>li:first-child {
+    border-bottom: 1px solid #51617d;
+}
+
+.logged-user{
+    min-width: 230px;
+}
+
+.logged-user .c-avatar {
+    width: 50px;
+    height: 50px;
+}
