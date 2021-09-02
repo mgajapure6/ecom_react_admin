@@ -15,6 +15,9 @@ const AppLayout = React.lazy(() => import("./ecom/layout/AppLayout"));
 
 //Login Page
 const Login = React.lazy(() => import("./ecom/login/Login"));
+
+//Forget Password Page
+const ForgetPassword = React.lazy(() => import("./ecom/login/ForgetPassword"));
 //const Login = React.lazy(() => import("./views/pages/login/Login"));
 // const Register = React.lazy(() => import('./views/pages/register/Register'));
 // const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
@@ -31,6 +34,12 @@ class App extends Component {
               path="/login"
               name="Login"
               render={(props) => <Login {...props} />}
+            />
+            <Route
+              exact
+              path="/fpassword"
+              name="Forget Password"
+              render={(props) => <ForgetPassword {...props} />}
             />
             {/* <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
